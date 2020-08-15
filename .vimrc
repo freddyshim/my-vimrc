@@ -8,6 +8,9 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-surround'
+Plug 'pangloss/vim-javascript'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'mattn/emmet-vim'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -18,6 +21,7 @@ set t_Co=256
 set cursorline
 colorscheme gruvbox
 set background=dark
+set termguicolors
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " TEXT
@@ -32,6 +36,9 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set expandtab
+set autoindent
+set smartindent
+set cindent
 " 2 space tabs for html/css/js
 " autocmd Filetype html setlocal ts=2 sts=2 sw=2 expandtab
 " autocmd Filetype css setlocal ts=2 sts=2 sw=2 expandtab
