@@ -32,18 +32,18 @@ set encoding=utf-8
 " INDENTATION
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set autoindent
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set expandtab
 set autoindent
 set smartindent
 set cindent
 " 2 space tabs for html/css/js
-" autocmd Filetype html setlocal ts=2 sts=2 sw=2 expandtab
-" autocmd Filetype css setlocal ts=2 sts=2 sw=2 expandtab
-" autocmd Filetype scss setlocal ts=2 sts=2 sw=2 expandtab
-" autocmd Filetype javascript setlocal ts=2 sts=2 sw=2 expandtab
+autocmd Filetype html setlocal ts=2 sts=2 sw=2 expandtab
+autocmd Filetype css setlocal ts=2 sts=2 sw=2 expandtab
+autocmd Filetype scss setlocal ts=2 sts=2 sw=2 expandtab
+autocmd Filetype javascript setlocal ts=2 sts=2 sw=2 expandtab
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " UI ELEMENTS
@@ -97,6 +97,8 @@ let g:coc_global_extensions = [
   \ 'coc-json', 
   \ 'coc-css',
   \ 'coc-html',
+  \ 'coc-java',
+  \ 'coc-pairs',
   \ ]
 
 " prettier
