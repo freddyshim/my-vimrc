@@ -3,10 +3,12 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin()
 Plug 'morhetz/gruvbox'
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'preservim/nerdtree'
+Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-surround'
 Plug 'pangloss/vim-javascript'
 Plug 'MaxMEllon/vim-jsx-pretty'
@@ -19,7 +21,11 @@ call plug#end()
 syntax on
 set t_Co=256
 set cursorline
-colorscheme gruvbox
+colorscheme onehalfdark
+let g:airline_theme='onehalfdark'
+let g:lightline = {
+      \ 'colorscheme': 'onehalfdark',
+      \ }
 set background=dark
 set termguicolors
 
@@ -27,6 +33,7 @@ set termguicolors
 " TEXT
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set encoding=utf-8
+set clipboard=unnamed
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " INDENTATION
@@ -74,6 +81,14 @@ set foldenable
 set foldmethod=indent
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" SPLIT NAVIGATION
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTREE SETTINGS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <silent> <C-n> :NERDTreeToggle<CR>
@@ -81,7 +96,7 @@ map <silent> <C-n> :NERDTreeToggle<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " FZF SETTINGS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <C-f> <Esc><Esc>:GFiles!<CR>
+map <C-f> <Esc><Esc>:Files!<CR>
 inoremap <C-f> <Esc><Esc>:BLines!<CR>
 map <C-g> <Esc><Esc>:BCommits!<CR>
 
@@ -98,6 +113,7 @@ let g:coc_global_extensions = [
   \ 'coc-css',
   \ 'coc-html',
   \ 'coc-java',
+  \ 'coc-python',
   \ 'coc-pairs',
   \ ]
 
@@ -147,14 +163,10 @@ endfunction
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
