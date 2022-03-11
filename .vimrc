@@ -8,6 +8,7 @@ set noswapfile
 " PLUGINS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin()
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'morhetz/gruvbox'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -17,8 +18,10 @@ Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'sheerun/vim-polyglot'
-Plug 'mattn/emmet-vim', { 'for': ['javascript', 'jsx', 'html', 'css'] }
+Plug 'mattn/emmet-vim'
 Plug 'mileszs/ack.vim'
+Plug 'tomlion/vim-solidity'
+Plug 'habamax/vim-godot'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -29,11 +32,11 @@ set termguicolors
 set t_Co=256
 set cursorline
 " set background theme depending on time of day
-if strftime("%H") >= 8 && strftime("%H") < 17
-  set background=light
-else
+"if strftime("%H") >= 8 && strftime("%H") < 17
+"  set background=light
+"else
   set background=dark
-endif
+"endif
 colorscheme selenized
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -43,9 +46,33 @@ set encoding=utf-8
 set clipboard=unnamed
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TABS
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('gui_vimr')
+  nnoremap <D-1> :tabn 1<CR>
+  nnoremap <D-2> :tabn 2<CR>
+  nnoremap <D-3> :tabn 3<CR>
+  nnoremap <D-4> :tabn 4<CR>
+  nnoremap <D-5> :tabn 5<CR>
+  nnoremap <D-6> :tabn 6<CR>
+  nnoremap <D-7> :tabn 7<CR>
+  nnoremap <D-8> :tabn 8<CR>
+  nnoremap <D-9> :tabn 9<CR>
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TERMINAL
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+tnoremap <Esc> <C-\><C-n>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" DEBUGGING
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+packadd termdebug
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " INDENTATION
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set autoindent
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
@@ -53,8 +80,8 @@ set expandtab
 set autoindent
 set smartindent
 set cindent
-" 4 space tabs for Python
-autocmd Filetype python setlocal ts=4 sts=4 sw=4 expandtab
+" 4 space tabs for certain files
+au Filetype python,gdscript,make setl noexpandtab ts=4 sts=4 sw=4
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " UI ELEMENTS
@@ -83,17 +110,23 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 " FOLDING
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set foldenable
-set foldmethod=syntax
-set foldlevelstart=1
+set foldmethod=indent
+set foldlevelstart=2
 set foldnestmax=2
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" SPLIT NAVIGATION
+" SPLITS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set splitbelow
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" GODOT SETTINGS
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:godot_executable = '/Applications/Godot.app'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " LIGHTLINE SETTINGS
@@ -134,21 +167,20 @@ map <silent> <C-n> :NERDTreeToggle<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " FZF SETTINGS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <C-f> <Esc><Esc>:Files!<CR>
-inoremap <C-f> <Esc><Esc>:BLines!<CR>
-map <C-g> <Esc><Esc>:BCommits!<CR>
+map <C-f> <Esc><Esc>:GFiles<CR>
+map <C-g> <Esc><Esc>:Ag<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " EMMET SETTINGS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd FileType html,css.javascript,jsx EmmetInstall
-let g:user_emmet_settings={
-\  'javascript.jsx' : {
-\    'extends': 'jsx',
-\    'default_attributes': {
-\      'label': [{'htmlFor': ''}],
-\      'class': {'className': ''},
-\    }
+let g:user_emmet_install_global = 0
+autocmd FileType html,css,javascript.jsx,javascriptreact,typescript.jsx,typescriptreact EmmetInstall
+let g:user_emmet_settings = {
+\  'javascript' : {
+\      'extends' : 'jsx',
+\  },
+\  'typescript' : {
+\      'extends' : 'jsx',
 \  },
 \}
 let g:user_emmet_leader_key=','
@@ -165,7 +197,7 @@ let g:coc_global_extensions = [
   \ 'coc-css',
   \ 'coc-html',
   \ 'coc-java',
-  \ 'coc-python',
+  \ 'coc-pyright',
   \ ]
 
 " prettier
@@ -241,7 +273,7 @@ function! s:show_documentation()
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+"autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
@@ -317,4 +349,6 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 " start NERDTree on start
-autocmd VimEnter * NERDTree
+if !has('gui_vimr')
+  autocmd VimEnter * NERDTree
+endif
