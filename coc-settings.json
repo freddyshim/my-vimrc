@@ -5,13 +5,18 @@
     "javascriptreact",
     "typescript",
     "typescriptreact",
+    "svelte",
     "json",
     "css",
     "scss",
     "html",
     "rust",
-    "cpp"
+    "cpp",
+    "python",
+    "markdown"
   ],
+  "pyright.enable": true,
+  "python.analysis.typeCheckingMode": "off",
   "prettier.singleQuote": true,
   "prettier.trailingComma": "es5",
   "prettier.semi": false,
@@ -32,7 +37,8 @@
         "javascript",
         "javascriptreact",
         "typescript",
-        "typescriptreact"
+        "typescriptreact",
+        "svelte"
       ],
 
       "rootPatterns": [
@@ -61,5 +67,6 @@
         }
       }
     }
-  }
+  },
+  "svelte.enable-ts-plugin": true
 }

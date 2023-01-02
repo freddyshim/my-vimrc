@@ -186,6 +186,11 @@ let g:user_emmet_settings = {
 let g:user_emmet_leader_key=','
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" SVELTE SETTINGS
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:vim_svelte_plugin_use_typescript = 1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COC SETTINGS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:coc_global_extensions = [
@@ -198,7 +203,11 @@ let g:coc_global_extensions = [
   \ 'coc-html',
   \ 'coc-java',
   \ 'coc-pyright',
+  \ 'coc-svelte',
   \ ]
+
+" prevent cursor from disappearing
+let g:coc_disable_transparent_cursor = 1
 
 " prettier
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
