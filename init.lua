@@ -6,10 +6,43 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 --------------------------------------------------------------------------------
+-- PLUGINS
+--------------------------------------------------------------------------------
+vim.cmd[[packadd packer.nvim]]
+
+require('packer').startup(function(use)
+  -- package manager
+  use 'wbthomason/packer.nvim'
+  -- syntax parser
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  -- themes
+  use 'arcticicestudio/nord-vim'
+  use { "catppuccin/nvim", as = "catppuccin" }
+  -- fuzzy file finder
+  use { 'junegunn/fzf', run = ':call fzf#install' }
+  use 'junegunn/fzf.vim'
+  -- navigation tree
+  use {
+    'nvim-tree/nvim-tree.lua',
+    requires = { 'nvim-tree/nvim-web-devicons' }
+  }
+  -- status line
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'nvim-tree/nvim-web-devicons' }
+  }
+  -- macros
+  use 'tpope/vim-surround'
+  use 'tpope/vim-repeat'
+  -- good stuff
+  use {'neoclide/coc.nvim', branch = 'release'}
+end)
+
+
+--------------------------------------------------------------------------------
 -- COLORS
 --------------------------------------------------------------------------------
 vim.opt.termguicolors = true
-vim.opt.t_Co = 256
 vim.opt.cursorline = true
 vim.opt.background = 'dark'
 vim.cmd.colorscheme('nord')
@@ -60,7 +93,7 @@ vim.opt.cursorline = true
 vim.opt.wildmenu = true
 vim.opt.wildmode = 'longest:full,full'
 vim.opt.title = true
-vim.opt.colorcolumn = 80
+vim.opt.colorcolumn = '80'
 
 --------------------------------------------------------------------------------
 -- SEARCH
@@ -94,41 +127,10 @@ vim.keymap.set('n', '<C-H>', '<C-W><C-H>')
 --------------------------------------------------------------------------------
 vim.g.godot_executable = '/Applications/Godot.app'
 
+
 --------------------------------------------------------------------------------
--- PLUGINS
---------------------------------------------------------------------------------
-vim.cmd[[packadd packer.nvim]]
-
-require('packer').startup(function(use)
-  -- package manager
-  use 'wbthomason/packer.nvim'
-  -- syntax parser
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-  -- themes
-  use 'arcticicestudio/nord-vim'
-  use { "catppuccin/nvim", as = "catppuccin" }
-  -- fuzzy file finder
-  use { 'junegunn/fzf', run = ':call fzf#install' }
-  use 'junegunn/fzf.vim'
-  -- navigation tree
-  use {
-    'nvim-tree/nvim-tree.lua',
-    requires = { 'nvim-tree/nvim-web-devicons' }
-  }
-  -- status line
-  use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'nvim-tree/nvim-web-devicons' }
-  }
-  -- macros
-  use 'tpope/vim-surround'
-  use 'tpope/vim-repeat'
-  -- good stuff
-  use {'neoclide/coc.nvim', branch = 'release'}
-end)
-
-
 -- nvim-tree
+--------------------------------------------------------------------------------
 require("nvim-tree").setup()
 
 --------------------------------------------------------------------------------
