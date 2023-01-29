@@ -185,6 +185,25 @@ require('lualine').setup({
 --------------------------------------------------------------------------------
 -- coc
 --------------------------------------------------------------------------------
+vim.g.coc_global_extensions = {
+  'coc-snippets',
+  'coc-pairs', 
+  'coc-tsserver', 
+  'coc-prettier', 
+  'coc-json', 
+  'coc-css', 
+  'coc-html', 
+  'coc-java', 
+  'coc-pyright', 
+  'coc-svelte'
+}
+
+-- prevent cursor from disappearing
+vim.g.coc_disable_transparent_cursor = 1
+
+-- prettier
+vim.cmd[[command! -nargs=0 Prettier :CocCommand prettier.formatFile]]
+
 -- Some servers have issues with backup files, see #649
 vim.opt.backup = false
 vim.opt.writebackup = false
