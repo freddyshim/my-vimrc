@@ -45,7 +45,7 @@ end)
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
 vim.opt.background = 'dark'
-vim.cmd.colorscheme('nord')
+vim.cmd.colorscheme('catppuccin-frappe')
 
 --------------------------------------------------------------------------------
 -- TEXT
@@ -131,28 +131,29 @@ vim.g.godot_executable = '/Applications/Godot.app'
 --------------------------------------------------------------------------------
 -- nvim-tree
 --------------------------------------------------------------------------------
-require("nvim-tree").setup()
+require('nvim-tree').setup()
+vim.keymap.set('n', '<C-N>', ':NvimTreeToggle<CR>')
 
 --------------------------------------------------------------------------------
 -- treesitter
 --------------------------------------------------------------------------------
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup {
   ensure_installed = { 
-    "c", 
-    "cpp", 
-    "lua", 
-    "vim", 
-    "help", 
-    "javascript", 
-    "typescript", 
-    "python", 
-    "rust", 
-    "cmake", 
-    "css", 
-    "html", 
-    "glsl", 
-    "yaml", 
-    "json" 
+    'c', 
+    'cpp', 
+    'lua', 
+    'vim', 
+    'help', 
+    'javascript', 
+    'typescript', 
+    'python', 
+    'rust', 
+    'cmake', 
+    'css', 
+    'html', 
+    'glsl', 
+    'yaml', 
+    'json' 
   },
   sync_install = false,
   auto_install = true,
@@ -165,9 +166,19 @@ require'nvim-treesitter.configs'.setup {
 --------------------------------------------------------------------------------
 -- catppuccin
 --------------------------------------------------------------------------------
-require("catppuccin").setup({
+require('catppuccin').setup({
+  flavour = 'frappe',
   integrations = {
     nvimtree = true
+  }
+})
+
+--------------------------------------------------------------------------------
+-- lualine
+--------------------------------------------------------------------------------
+require('lualine').setup({
+  options = {
+    theme = 'catppuccin'
   }
 })
 
