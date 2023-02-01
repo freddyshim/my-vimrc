@@ -19,7 +19,7 @@ require('packer').startup(function(use)
   use 'arcticicestudio/nord-vim'
   use { "catppuccin/nvim", as = "catppuccin" }
   -- fuzzy file finder
-  use { 'junegunn/fzf', run = ':call fzf#install' }
+  use { 'junegunn/fzf', run = ':call fzf#install()' }
   use 'junegunn/fzf.vim'
   -- navigation tree
   use {
