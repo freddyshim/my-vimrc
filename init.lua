@@ -13,6 +13,8 @@ vim.cmd[[packadd packer.nvim]]
 require('packer').startup(function(use)
   -- package manager
   use 'wbthomason/packer.nvim'
+  -- tmux navigator
+  use 'christoomey/vim-tmux-navigator'
   -- syntax parser
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   -- themes
