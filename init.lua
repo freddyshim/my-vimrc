@@ -21,8 +21,10 @@ require('packer').startup(function(use)
   use 'arcticicestudio/nord-vim'
   use { "catppuccin/nvim", as = "catppuccin" }
   -- fuzzy file finder
-  use { 'junegunn/fzf', run = ':call fzf#install()' }
-  use 'junegunn/fzf.vim'
+  use {
+    'nvim-telescope/telescope.nvim', tag = '0.1.1',
+    requires = { {'nvim-lua/plenary.nvim'} }
+  }
   -- navigation tree
   use {
     'nvim-tree/nvim-tree.lua',
@@ -103,9 +105,11 @@ vim.opt.colorcolumn = '80'
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
-if vim.fn.executable('ag') == 1 then
-  vim.g.ackprg = 'ag --nogroup --nocolor --column'
-end
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<C-F>', builtin.find_files, {})
+vim.keymap.set('n', '<C-G>', builtin.live_grep, {})
+vim.keymap.set('n', '<C-B>', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 --------------------------------------------------------------------------------
 -- FOLDING
@@ -337,19 +341,6 @@ keyset("x", "ic", "<Plug>(coc-classobj-i)", opts)
 keyset("o", "ic", "<Plug>(coc-classobj-i)", opts)
 keyset("x", "ac", "<Plug>(coc-classobj-a)", opts)
 keyset("o", "ac", "<Plug>(coc-classobj-a)", opts)
-
-
--- Remap <C-f> and <C-b> to scroll float windows/popups
----@diagnostic disable-next-line: redefined-local
-local opts = {silent = true, nowait = true, expr = true}
-keyset("n", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
-keyset("n", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
-keyset("i", "<C-f>",
-       'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(1)<cr>" : "<Right>"', opts)
-keyset("i", "<C-b>",
-       'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(0)<cr>" : "<Left>"', opts)
-keyset("v", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
-keyset("v", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
 
 
 -- Use CTRL-S for selections ranges
