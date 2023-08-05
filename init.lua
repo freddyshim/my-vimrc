@@ -91,6 +91,14 @@ require("lazy").setup({
       { "hrsh7th/cmp-nvim-lsp" }, -- Required
       { "L3MON4D3/LuaSnip" },     -- Required
     }
+  },
+  -- formatter
+  {
+    "MunifTanjim/prettier.nvim",
+    dependencies = {
+      { "neovim/nvim-lspconfig" },
+      { "jose-elias-alvarez/null-ls.nvim" }
+    }
   }
 })
 
@@ -234,8 +242,19 @@ require("lualine").setup({
 require("bufferline").setup {
   options = {
     diagnostics = "nvim_lsp"
-  }
+  },
 }
+vim.keymap.set("n", "<leader>1", "<cmd>lua require('bufferline').go_to(1, false)<cr>", { buffer = false })
+vim.keymap.set("n", "<leader>2", "<cmd>lua require('bufferline').go_to(2, false)<cr>", { buffer = false })
+vim.keymap.set("n", "<leader>3", "<cmd>lua require('bufferline').go_to(3, false)<cr>", { buffer = false })
+vim.keymap.set("n", "<leader>4", "<cmd>lua require('bufferline').go_to(4, false)<cr>", { buffer = false })
+vim.keymap.set("n", "<leader>5", "<cmd>lua require('bufferline').go_to(5, false)<cr>", { buffer = false })
+vim.keymap.set("n", "<leader>6", "<cmd>lua require('bufferline').go_to(6, false)<cr>", { buffer = false })
+vim.keymap.set("n", "<leader>7", "<cmd>lua require('bufferline').go_to(7, false)<cr>", { buffer = false })
+vim.keymap.set("n", "<leader>8", "<cmd>lua require('bufferline').go_to(8, false)<cr>", { buffer = false })
+vim.keymap.set("n", "<leader>9", "<cmd>lua require('bufferline').go_to(9, false)<cr>", { buffer = false })
+vim.keymap.set("n", "<leader>0", "<cmd>lua require('bufferline').go_to(0, false)<cr>", { buffer = false })
+
 
 --------------------------------------------------------------------------------
 -- LSP
@@ -295,4 +314,50 @@ cmp.setup({
   mapping = {
     ["<CR>"] = cmp.mapping.confirm({ select = false }),
   }
+})
+
+--------------------------------------------------------------------------------
+-- LSP
+--------------------------------------------------------------------------------
+local null_ls = require("null-ls")
+
+local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
+local event = "BufWritePre" -- or "BufWritePost"
+local async = event == "BufWritePost"
+
+null_ls.setup({
+  on_attach = function(client, bufnr)
+    if client.supports_method("textDocument/formatting") then
+      -- format on save
+      vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
+      vim.api.nvim_create_autocmd(event, {
+        buffer = bufnr,
+        group = group,
+        callback = function()
+          vim.lsp.buf.format({ bufnr = bufnr, async = async })
+        end,
+        desc = "[lsp] format on save",
+      })
+    end
+  end,
+})
+
+local prettier = require("prettier")
+
+prettier.setup({
+  bin = 'prettierd',
+  filetypes = {
+    "css",
+    "graphql",
+    "html",
+    "javascript",
+    "javascriptreact",
+    "json",
+    "less",
+    "markdown",
+    "scss",
+    "typescript",
+    "typescriptreact",
+    "yaml",
+  },
 })
